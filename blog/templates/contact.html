@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block blog %}
+<div class="row" align="center">
+    <h2>Contact Us</h2>
+</div>
+<input type="hidden" id="csrf" value="{{csrf_token}}">
+<div class="container w-50 border 1" style="margin-top:30px; padding:15px">
+        <div class="row" style="padding-top:5px">
+            <div class="col-auto">
+            <input type="text" class="form-control" placeholder="First name" name="first_name" id="first_name" aria-label="First name">
+            </div>
+            <div class="col-auto">
+            <input type="text" class="form-control" placeholder="Last name" name="last_name" id="last_name" aria-label="Last name">
+            </div>
+            <div class="col">
+            <input type="email" class="form-control" placeholder="Email Address" id = "email" aria-label="Email">
+            </div>
+        </div>
+        <div class="row" style="padding-top:20px">
+            <div class="col">
+                <input type="text" class="form-control" id="subject" placeholder="Subject">
+            </div>
+        </div>
+        <textarea class="form-control" placeholder="Leave a comment here" id="text" style="height: 100px; margin-top:10px" ></textarea>
+        <button class="btn btn-primary" style="margin-top:10px;" onclick="contact()">Submit</button>
+</div>
+{% endblock blog %}

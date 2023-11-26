@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+    {% block blog %}
+    {% for i in data  %}
+    <div class="container">
+        <div class = "row">
+            <div class = "col" align="center">
+                <h1 style="padding:30px">{{i.title}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="/media/{{i.image}}" alt="..." width="250px" style="padding-bottom:30px">
+                <p style="font-size:20px">{{i.content|safe}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <form class="row g-3" method="post" action="/sendmail/">
+            {% csrf_token %}
+
+            <div class="col-auto">
+              <label for="inputPassword2" class="visually-hidden">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+              <input type="text" class="visually-hidden" id="id" name="id" value={{i.id}}>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3">Share with your friends</button>
+            </div>
+        </form>
+        <div class="row" style="margin-top:25px">
+            <h2>Comments</h2>
+            <div id="comment_section">
+                <form action="/comment/" method="post" class="row">
+                    {% csrf_token %}
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="comment" placeholder="Enter your comment here...">
+                        <input type="text" class="visually-hidden" value="{{i.id}}" name="blog">
+                    </div>
+                    <div class="col-auto">
+                        <input type="submit" class="btn btn-primary mb-3">
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% for com in comment %}
+        <div class="row " style="margin-top: 5px;">
+            <div class="col-1 ">
+                <img src="/media/{{com.user.image}}" alt="..." style="max-width: 100%; height: auto; padding-bottom: 30px;">
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col">
+                        <h5>{{com.user.name}} <span style="font-size:12px">at {{com.created_at}}</span></h5>
+                        <p>{{com.comment}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+    {% endfor %}
+
+
+    {% endblock blog %}
