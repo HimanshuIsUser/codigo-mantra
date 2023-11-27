@@ -28,7 +28,7 @@ function register(){
     .then(response => { 
         console.log('response:', response.data.email);
         if (response.status === 200){
-            localStorage.setItem('access_token',response.accessToken)
+            localStorage.setItem('access_token',response.access_token)
             localStorage.setItem('id',response.user)
             window.location.href = '/';
         }
@@ -70,10 +70,8 @@ function login(){
     .then(response => {
         console.log('response:', response);
         if (response.status === 200){
-            console.log(response.access_token);
             localStorage.setItem('access_token',response.access_token)
             localStorage.setItem('id',response.user)
-            console.log(localStorage.getItem('access_token'))
             window.location.href = '/';
         }
         else{
@@ -152,6 +150,8 @@ if (accessToken) {
     logoutButton.style.display = 'none';
     commentsection.style.display = 'none';
   }
+
+document.getElementById('jwtToken').value = accessToken;
 
 
 function logout() {

@@ -30,14 +30,15 @@
         <div class="row" style="margin-top:25px">
             <h2>Comments</h2>
             <div id="comment_section">
-                <form action="/comment/" method="post" class="row">
+                <form action="/comment/" method="post" class="row" id="myform">
                     {% csrf_token %}
+                    <input type="hidden" name="jwtToken" id="jwtToken">
                     <div class="col-auto">
                         <input type="text" class="form-control" name="comment" placeholder="Enter your comment here...">
                         <input type="text" class="visually-hidden" value="{{i.id}}" name="blog">
                     </div>
                     <div class="col-auto">
-                        <input type="submit" class="btn btn-primary mb-3">
+                        <input type="submit"  class="btn btn-primary mb-3">
                     </div>
                 </form>
             </div>
@@ -45,7 +46,7 @@
         {% for com in comment %}
         <div class="row " style="margin-top: 5px;">
             <div class="col-1 ">
-                <img src="/media/{{com.user.image}}" alt="..." style="max-width: 100%; height: auto; padding-bottom: 30px;">
+                <img src="/media/images/download.png" alt="..." style="max-width: 70%; height: auto; padding-bottom: 30px;">
             </div>
             <div class="col-6">
                 <div class="row">

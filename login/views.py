@@ -46,21 +46,21 @@ class User_registrations_view(APIView):
                 return Response('This email is already registered',status = status.HTTP_406_NOT_ACCEPTABLE)
             serializer = User_profile_serializer(data = data)
             if serializer.is_valid():
-                serializer.save()
                 user = CustomUser.objects.create(email = data['email'],password = make_password(data['password']))
+                serializer.save(user=user)
                 userData = get_access_token(user)
                 access_token = userData['access_token']
                 refresh_token = userData['refresh_token']
                 userData = {'data':serializer.data,
-                            'access_token':str(access_token),
+                            'user':user.email,
                             'refresh_token':str(refresh_token),
+                            'access_token':str(access_token),
                             'status':200}
-                return Response(userData,status=status.HTTP_200_OK)
-            print(serializer.errors)
+                return Response(userData,status=200)
             return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
         except Exception as e:
             response_Data = str(e)
-            return Response({"status":200,"data":response_Data},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status":400,"data":response_Data},status=status.HTTP_400_BAD_REQUEST)
         
         
 def register(request):

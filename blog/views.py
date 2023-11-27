@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect,HttpResponse
-from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from blog.models import *
 from django.core.mail import send_mail
@@ -8,7 +7,10 @@ import threading
 from django.core.paginator import Paginator
 from django.db.models import Q
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import (api_view, authentication_classes,
+                                       permission_classes)
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import AccessToken
 
 # Create your views here.
 
@@ -74,8 +76,11 @@ def sendmail_func(request):
 def blogcomment(request):
     if request.method=="POST":
         post = request.POST
+        print(post)
         comment = post.get("comment")
-        user = User_profile.objects.get(user = request.user)
+        token = post.get("jwtToken")
+        access_token = AccessToken(token)
+        user = User_profile.objects.get(user = access_token['user_id'])
         blog = BlogModel.objects.get(id=post.get("blog"))
         postcomment = Blogcomment(comment=comment,blog=blog,user=user)
         postcomment.save()
